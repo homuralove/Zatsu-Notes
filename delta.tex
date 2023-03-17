@@ -1,0 +1,240 @@
+\documentclass{jsarticle}
+\usepackage{amsmath,amssymb}
+\usepackage[dvipdfmx]{graphicx}
+
+\def\vector#1{\mbox{\boldmath $#1$}}
+\def\henbi#1#2{\frac{\partial #1}{\partial #2}}
+\def\bi#1#2{\frac{d #1}{d #2}}
+\def\kakko#1{\left( #1 \right) }
+\def\kkakko#1{\left[ #1 \right] }
+\def\nkakko#1{\left \{ #1 \right \} }
+\def\p#1{\left| #1 \right| }
+
+\title{デルタ関数と使い所}
+\date{\today}
+\author{k5 @homuotaku}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{概要}
+ディラック(Dirac)のデルタ関数$\delta(x-x_{0})$とは$-\infty<x<\infty$で定義された連続関数$f(x)$に対して
+\begin{align}
+\label{teigi1}\int_{-\infty}^{\infty}\delta(x-x_{0})f(x)dx=f(x_{0})
+\end{align}
+を満たすような「関数」として定義される．もちろん通常の意味での関数ではなく，超関数と呼ばれる汎関数\footnote{汎関数は関数を引数として指定して値が決まる「関数の関数」のようなものである．\\解析力学でよく出る作用$ \displaystyle S[q]=\int_{-\infty}^{\infty}L(q,\dot{q},t)dt$も汎関数の一つ．}のひとつだが，ここでは上の式を満たすものとして述べていく．このような条件から，デルタ関数を無理やり普通の関数のように書くと
+\begin{align}
+\delta(x-x_{0})=\begin{cases}
++\infty&(x=x_{0})\\
+0&(x\neq x_{0})
+\end{cases}
+\end{align}
+のようにするしかない．$f(x)=1$という関数においては
+\begin{align}
+\label{1}\int_{-\infty}^{\infty}\delta(x-x_{0})dx=1
+\end{align}
+となることからこれはクロネッカー(Kronecker)のデルタ
+\begin{align}
+\delta_{ij}=\begin{cases}
+1&(i=j)\\
+0&(i\neq j)
+\end{cases}
+\end{align}
+の連続関数バージョンとも言える．また，簡単のために$x_{0}=0$とすれば
+\begin{align}
+\label{teigi2}\int_{-\infty}^{\infty}\delta(x)f(x)dx&=f(0)\\
+\label{teigi3}\int_{-\infty}^{\infty}\delta(x)dx&=1
+\end{align}
+もよく見る形，あるいはむしろこちらを定義としている人もいる．このような特徴を持つことから，私はデルタ関数について$\delta(0)$の点を挟んで積分すれば{\bf その点の関数の値を出すもの}，のように理解している．任意の微小量$\varepsilon$について(\ref{1})式は
+\begin{align}
+\int_{-x_{0}+\varepsilon}^{x_{0}+\varepsilon}\delta(x-x_{0})dx=1
+\end{align}
+と挟んで積分しているように解釈できる．以下，このノートでは「デルタ関数であること」を示すために，(\ref{teigi1})(\ref{teigi2})(\ref{teigi3})の式のどれかの特徴を満たしていることを示すことにする．
+
+\section{性質}
+デルタ関数は(\ref{teigi1})式を満たし同じ結果を与えるという意味で様々な性質がある．
+\subsection{同じ結果を与える等式}
+いくつか紹介する．
+\begin{description}
+\item[その1] $\delta(x)=\delta(-x)$
+\end{description}
+
+両辺の式が「同じ結果」を与えてくれればよい．%$-x$を引数としているからある関数$f(-x)$にかけて積分することを考える．
+(\ref{teigi2})式で$f(x)=1$として$y=-x$のように変数変換する．$x:-\infty\to\infty$で$y:\infty\to-\infty$，$dy/dx=-1$である．
+\begin{align}
+\int_{-\infty}^{\infty}\delta(x)dx&=\int_{\infty}^{-\infty}\delta(-y)(-dy)\\
+&=\int_{-\infty}^{\infty}\delta(-y)dy
+\end{align}
+%\begin{align}
+%\int_{-\infty}^{\infty}\delta(x)f(-x)&=f(0)\\
+%\intertext{また$y=-x$としてやると$x:-\infty\to\infty$で$y:\infty\to-\infty$，$dy/dx=-1$より}\int_{-\infty}^{\infty}\delta(x)f(-x)dx&=\int_{\infty}^{-\infty}\delta(-y)f(y)(-dy)\\
+%&=\int_{-\infty}^{\infty}\delta(-y)f(y)dy
+%\end{align}
+%ここでの積分変数を(\ref{teigi2})式にそろえて引き算すると
+%\begin{align}
+%\int_{-\infty}^{\infty}\delta(x)f(x)dx-\int_{-\infty}^{\infty}\delta(-x)f(x)dx&=\int_{-\infty}^{\infty}\kakko{\delta(x)-\delta(-x)}f(x)dx\\
+%&=f(0)-f(0)=0
+%\end{align}
+となり，ここでは積分変数が違うだけだから$\delta(x)=\delta(-x)$である．デルタ関数は偶関数に似た性質を持つ．
+
+\begin{description}
+\item[その2] $\displaystyle \delta(ax)=\frac{1}{|a|}\delta(x)$
+\end{description}
+
+同様に$f(x)=1$として(\ref{teigi2})式で引数を$ax$としその後あらためて変数を$y=ax$と変換する．$a>0$ならば$dy/dx=a$
+\begin{align}
+\int_{-\infty}^{\infty}\delta(ax)dx&=\int_{-\infty}^{\infty}\frac{1}{a}\delta(y)dy\\
+\intertext{また$a<0$ならば$x:-\infty\to\infty$のとき$y:\infty\to-\infty$となるので}
+\int_{-\infty}^{\infty}\delta(ax)dx&=\int_{\infty}^{-\infty}\frac{1}{a}\delta(y)dy\\
+&=\int_{-\infty}^{\infty}\kakko{-\frac{1}{a}\delta(y)}dy\\
+\end{align}
+この2つの結果をまとめれば$\displaystyle \delta(ax)=\frac{1}{|a|}\delta(x)$である．
+
+\begin{description}
+\item[その3] 関数$g(x)$について$x_{n}(n=1,2\dots)$で零点を持つ，すなわち$g(x_n)=0$となり，$g'(x_{n})\neq0$であるならば$\displaystyle \delta(g(x))=\sum_{n}\frac{1}{|g'(x_{n})|}\delta(x-x_{n})$
+\end{description}
+
+零点となる$x_{n}$を挟んで積分すればデルタ関数の性質を満たす．そのような点が$n$個あると考えればその周辺を挟む分だけ足し合わせればよい．(\ref{teigi2})式から，関数$f(x)$にかけて積分する．
+\begin{align}
+\int_{-\infty}^{\infty}\delta(g(x))f(x)dx&=\int_{-\infty}^{\infty}\delta(|g(x)|)f(x)dx\\
+\intertext{1つ目の性質$\delta(x)=\delta(-x)$より絶対値を取った．と零点となる$x_n$の周囲を挟んで$n$個の零点について積分する．微小量$\varepsilon$として}\int_{-\infty}^{\infty}\delta(|g(x)|)f(x)dx&=\sum_{n}\int_{g(x_{n})-\varepsilon}^{g(x_{n})+\varepsilon}\delta(|g(x)|)f(x)\p{\bi{x}{g}}dg\\
+&=\sum_{n}\int_{g(x_{n})-\varepsilon}^{g(x_{n})+\varepsilon}\delta(|g(x)|)f(x)\frac{1}{|g'(x)|}dg\\
+&=\sum_{n}\frac{1}{|g'(x_n)|}f(x_n)
+\end{align}
+途中で逆関数の微分を用いた．また(\ref{teigi1})式より
+\begin{align}
+f(x_n)=\int_{-\infty}^{\infty}\delta(x-x_n)f(x)dx
+\end{align}
+であるから
+\begin{align}
+\int_{-\infty}^{\infty}\delta(g(x))f(x)dx&=\sum_{n}\frac{1}{|g'(x_n)|}\int_{-\infty}^{\infty}\delta(x-x_n)f(x)dx
+\end{align}
+したがって$\displaystyle \delta(g(x))=\sum_{n}\frac{1}{|g'(x_{n})|}\delta(x-x_{n})$が言える．
+
+有名な例として$g(x)=x^{2}-a^{2}(a>0)$とすれば$x=a,-a$が零点となり，$g'(x)=2x$であるから，次の式が成り立つ．\begin{align}
+\delta(x^{2}-a^{2})&=\frac{1}{2a}\kakko{\delta(x-a)+\delta(x+a)}
+\end{align}
+\subsection{微分}
+デルタ関数は超関数であるから通常の意味での微分は定義できない……が，ここでは大目に見ることとして少し考えてみる．例によってデルタ関数の微分をかけて積分したもの
+\begin{equation}
+\int_{-\infty}^{\infty} f(x)\delta'(x)dx
+\end{equation}
+これで部分積分を実行してみよう．
+\begin{align}
+\int_{-\infty}^{\infty} f(x)\delta'(x)dx&=\kkakko{f(x)\delta(x)}_{-\infty}^{\infty} -\int_{-\infty}^{\infty} f'(x)\delta(x)dx\\
+&=-\int_{-\infty}^{\infty} f'(x)\delta(x)dx\\
+&=-f'(0)
+\end{align}
+このようにして意味ありげな式が出る．すなわち，負号をつけた$x=0$における微分係数となる．では2階微分ではどうか？同様にして部分積分を行ってみよう．$\delta'(x)$が$\delta(x)$と似たような性質を持つことから無限の彼方ではゼロとなることに注意して
+\begin{align}
+\int_{-\infty}^{\infty} f(x)\delta''(x)dx&=\kkakko{f(x)\delta'(x)}_{-\infty}^{\infty} -\int_{-\infty}^{\infty} f'(x)\delta'(x)dx\\
+\label{2kai}&=-\int_{-\infty}^{\infty} f'(x)\delta'(x)dx\\
+\label{2kai2}&=f''(0)
+\end{align}
+(\ref{2kai}),(\ref{2kai2})の変形では1階微分のときの性質を利用した．以上から，デルタ関数の微分は関数の微分値を取り出す事がわかる．(符号には注意しよう)
+\section{表式}
+デルタ関数は状況に応じて様々な表し方をする．有名なものとしてフーリエ積分表示，ヘヴィサイドの階段関数の1階微分，ラプラシアンを用いた表示がある．これも(\ref{teigi1}),(\ref{teigi2})または(\ref{teigi3})を満たすことが言えれば示せたことにする．
+\subsection{フーリエ積分による表示}
+
+\begin{description}
+\item[フーリエ積分表示] $\displaystyle \delta(x)=\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{ikx}dk=\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{-ikx}dk=\delta(-x)$
+\end{description}
+
+この表示では見て分かる通り偶関数のような性質は満たしている．この式を示すためには関数$f(x)$に対して
+\begin{align}
+\label{fo}\int_{-\infty}^{\infty}\kakko{\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{-ikx}dk}f(x)dx=f(0)
+\end{align}
+となれば良い．フーリエ変換とフーリエ逆変換はそれぞれ
+\begin{align}
+\tilde{f}(k)&=\int_{-\infty}^{\infty}e^{-ikx}f(x)dk\\
+\label{gya}f(x)&=\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{ikx}\tilde{f}(k)dx
+\end{align}
+である．なお，係数の部分は書籍によって違うこともある．この表式を考えつつ(\ref{fo})式の左辺を変形していく．
+\begin{align}
+\int_{-\infty}^{\infty}\kakko{\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{-ikx}dk}f(x)dx&=\frac{1}{2\pi}\int_{-\infty}^{\infty}dk\kakko{\int_{-\infty}^{\infty}e^{-ikx}f(x)dx}\\
+&=\frac{1}{2\pi}\int_{-\infty}^{\infty}dk \tilde{f}(k)\\
+\intertext{この式は(\ref{gya})式の右辺で$x=0$としたものであるから}\int_{-\infty}^{\infty}\kakko{\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{-ikx}dk}f(x)dx&=f(0)
+\end{align}
+となるから上のように表せる．
+\subsection{様々な関数による表示}
+
+\begin{description}
+\item[分数関数による表示] $\displaystyle \delta(x)=\lim_{a\to 0}\frac{1}{\pi}\frac{a}{x^{2}+a^{2}}$
+\end{description}
+
+$a\to0$の極限であることから$x\neq0$では0となることがわかる．また$a>0$で
+\begin{align}
+\int_{-\infty}^{\infty} \frac{1}{\pi}\frac{a}{x^{2}+a^{2}}dx&=\frac{1}{\pi}\int_{-\infty}^{\infty} \frac{1}{a}\frac{1}{(x/a)^{2}+1}dx\\
+&=\frac{1}{\pi}\kkakko{\arctan{\frac{x}{a}}}_{-\infty}^{\infty}\\
+\intertext{ここで$\arctan$は$\tan$の逆関数であることを考えると$\displaystyle \lim_{x\to\pm\infty}\arctan{x}=\pm \pi/2$である．よってこの積分は}\int_{-\infty}^{\infty} \frac{1}{\pi}\frac{a}{x^{2}+a^{2}}dx&=1
+\end{align}
+となり，満たす．
+\begin{description}
+\item[指数関数による表示] $\displaystyle \delta(x)=\lim_{a\to 0}\frac{1}{a\sqrt{\pi}}\exp{\kakko{-\frac{x^2}{a^2}}}$
+\end{description}
+
+$a\to0$の極限であることから$x\neq0$では0となることがわかる．また\begin{align}
+\int_{-\infty}^{\infty} \frac{1}{a\sqrt{\pi}}\exp{\kakko{-\frac{x^2}{a^2}}}dx&=\frac{1}{a\sqrt{\pi}}\sqrt{a^{2}\pi}=1
+\end{align}
+となる．ガウス積分の結果を用いた．
+\begin{description}
+\item[ディリクレ核を用いた表示] $N\in\mathbb{N}$に対して$\displaystyle D_{N}(x):=\frac{1}{2}+\sum_{k=1}^{N}\cos{kx}$はディリクレ核と呼ばれる．\\$\displaystyle \delta(x)=\lim_{N\to \infty}\frac{1}{\pi}D_{N}(x)$
+\end{description}
+
+中身が$\cos$であるから$-\pi\to\pi$の範囲で積分すると$1/2$以外は消えて
+\begin{align}
+\int_{-\pi}^{\pi}\frac{1}{\pi}D_{N}(x)dx=\frac{1}{\pi}\kkakko{\frac{1}{2}x}_{-\pi}^{\pi}=1
+\end{align}
+となる．なお，$D_{N}(x)$は周期$2\pi$の周期関数であり，$N\to\infty$とすることで$x=0$に鋭いピークを持つようになる．また，$D_{N}(x)$の両辺に$2\sin{x/2}$をかけて，三角関数の和積公式
+\begin{align}
+2\sin{\frac{x}{2}}\cos{kx}=\sin{\kakko{k+\frac{1}{2}}x}-\sin{\kakko{k-\frac{1}{2}}x}
+\end{align}
+を用いると隣り合う項が打ち消し合っていき結局
+\begin{align}
+D_{N}(x)=\frac{\sin{\kakko{N+1/2}x}}{2\sin{x/2}}
+\end{align}
+のように表せる．このとき$x=0$の付近に注目するとき$\sin{x/2}\simeq x/2$のように近似できるから上の表示と組み合わせて
+\begin{align}
+\delta(x)=\lim_{L\to\infty}\frac{\sin{Lx}}{\pi x}
+\end{align}
+とも表せる．この結果はフーリエ積分表示を示すときにも用いることができる．どちらが先かなどは好みだと思う．すなわち
+\begin{align}
+\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{ikx}dk&=\lim_{L\to0}\frac{1}{2\pi}\int_{-L}^{L}e^{ikx}dk\\
+&=\frac{1}{2\pi}\lim_{L\to0}\frac{e^{iLx}-e^{-iLx}}{ix}\\
+&=\lim_{L\to0}\frac{\sin{Lx}}{\pi x}\\
+&=\delta(x)
+\end{align}
+のようになる．
+\begin{description}
+\item[ヘヴィサイドの階段関数を用いた表示] 
+\end{description}
+\begin{description}
+\item[3次元ラプラシアンを用いた表示] 
+\end{description}
+\section{使い所さん}
+ここでは$\hbar=c=1$とする．
+\subsection{電磁気}
+電荷密度$\rho$とすると全電荷$Q$は
+\begin{equation}
+Q=\int_{V} \rho dV
+\end{equation}
+で表せる．点電荷ではこの$\rho$をデルタ関数を用いて定義する．点電荷を$q$とすると
+\begin{equation}
+\rho(\vector{r})=q\delta(\vector{r})
+\end{equation}
+\subsection{量子力学}
+規格化直交の話にクロネッカーのデルタとかデルタ関数を使う．
+\begin{description}
+\item[交換子] 正準交換関係を設定すると
+\begin{equation}
+\kkakko{x,p}=i.
+\end{equation}
+その他はゼロであった．これについて
+\end{description}
+\begin{thebibliography}{99}
+\bibitem{ref1} 須藤靖「解析力学・量子論」[初版](東京大学出版会，2008)
+\bibitem{ref2} 小野寺嘉孝「物理のための応用数学」[第19版](裳華房，2007[初版1988])
+\bibitem{ref3} 大石進一「理工系の数学入門コース フーリエ解析」(岩波書店，1989)
+\bibitem{ref4}EMANの物理学「デルタ関数」(https://eman-physics.net/math/delta\_func.html)
+\bibitem{ref5} 二宮正夫，杉野文彦，杉山忠男「講談社基礎物理学シリーズ7 量子力学II」(講談社サイエンティフィク，2010)
+\end{thebibliography}
+ \end{document}
