@@ -1,0 +1,156 @@
+\documentclass[10pt]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{braket}
+\usepackage{bm,latexsym,amsmath,amssymb,amsfonts,mathrsfs}
+\usepackage{tensor}
+\usepackage{comment}
+%\usepackage{physics}
+\usepackage[dvipdfmx,linktocpage=true]{hyperref}
+\usepackage{pxjahyper}
+\usepackage{color}
+\usepackage{here}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{bending}
+\input{colordvi.tex}
+
+\setcounter{tocdepth}{3}%目次にsubsubsectionまで入れる
+
+
+\newcommand{\kakko}[1]{\left(#1 \right)} %丸括弧()
+\newcommand{\kkakko}[1]{\left[ #1 \right]} %角括弧[]
+\newcommand{\nkakko}[1]{\left\{ #1 \right\}} %波括弧{}
+\newcommand{\p}[1]{\left| #1 \right|} %縦棒||
+\newcommand{\henbi}[2]{{\frac{\partial#1}{\partial#2}}} %偏微分
+\newcommand{\bi}[2]{{\frac{d #1}{d #2}}} %微分
+
+\newcommand{\del}{{\partial}} %偏微分の∂
+\newcommand{\skakko}[1]{$\ll$#1$\gg$}
+\newcommand{\vc}[1]{\overrightarrow{#1}}% 矢印ベクトル
+\newcommand{\vct}[1]{\bm{#1}}%太字ベクトル
+\newcommand{\sint}[1]{\int\mathcal{D}#1\,}%経路積分
+\newcommand{\pms}[1]{\mathcal{D}#1\,}%経路積分の測度
+\newcommand{\Tr}{\mathrm{Tr\,}}
+\newcommand{\tr}{\mathrm{tr\,}}
+
+%\newcommand{\Res}{\mathrm{Res}}
+\renewcommand{\Im}{\mathrm{Im\,}}
+\renewcommand{\Re}{\mathrm{Re\,}}
+
+
+\DeclareMathOperator*{\Res}{Res}
+\DeclareMathOperator*{\ext}{ext}
+
+\renewcommand{\theenumi}{\Alph{enumi}}
+\renewcommand{\labelenumi}{(\theenumi)}
+
+\numberwithin{equation}{section}%数式番号を(n.m)の形で書く。
+
+\topmargin=0.0in
+\headsep=0.0in
+\headheight=0.0in
+\oddsidemargin=-0.22in
+\evensidemargin=-0.22in
+\textwidth=6.5in
+\textheight=9.0in
+\title{経路積分の方法}
+\author{あけみ@homuotaku}
+\date{\today}
+\pagestyle{empty}
+\begin{document}
+\maketitle
+経路積分についてまとめる。
+参考資料や私の気分によって、このノートでもノーテーションのブレがあるかもしれない。
+\tableofcontents
+\section{Faynnmanの考え}
+2重スリット実験の帰結では、電子銃から放たれ、2つのスリットを通った粒子のスクリーン上での状態は、確率密度の重ね合わせで実現する。
+そのスリットを3重にしたら、あるいはスリットをもう1枚増やしたらどうなるかというと、スクリーンに到達した電子の状態は、これもまたそれらの重ね合わせで表される。
+ではスリットの穴と枚数をどんどん増やしていき、ついに全面が穴となり、また電子銃とスクリーンの間に隙間なくそのスリットが敷き詰められた場合を考える。
+結局のところ、電子銃とスクリーンの間に何も無いのと同じなのだが、前述の議論を参考にすれば「あらゆる可能な経路を通る重ね合わせ」でスクリーン上の状態が実現するといえる。
+言い換えれば、始状態と終状態の間の遷移確率振幅は、その2つを結ぶすべての経路の重ね合わせで与えられる、ということになる。
+\section{量子力学において}
+はじめにハミルトニアン$H$は時間並進の生成子であり、$U(t)=\exp{(-\frac{i}{\hbar}tH)}$は$t$だけ時間をシフトするユニタリ演算子であることを確認する。
+
+時間並進の演算子$U(t,t_{0})$として、状態$\ket{\psi(t_{0})}$から$\ket{\psi(t)}$に時間発展させることは以下のように書ける。
+\begin{equation}
+\label{hatten}  \ket{\psi(t)}=U(t,t_0)\ket{\psi(t_{0})}
+\end{equation}
+この演算子は
+\begin{align}
+ \label{32} i\hbar \henbi{}{t}U(t,t_{0})&=H(t)U(t,t_{0}),\quad U(t_{0},t_{0})=I\\
+  \label{33} U(t_{2},t_{1})U(t_{1},t_{0})&=U(t_{2},t_{0}),\quad(t_{2}>t_{1}>t_{0})
+\end{align}
+を満たす。これを示すために、Schrödinger方程式
+\begin{equation}
+  i\hbar \henbi{}{t}\ket{\psi(t)}=H(t)\ket{\psi(t)}
+\end{equation}
+を考える。(\ref{hatten})を代入すれば
+\begin{equation}
+  i\hbar \henbi{}{t}U(t,t_0)\ket{\psi(t_{0})}=H(t)U(t,t_0)\ket{\psi(t_{0})}
+\end{equation}
+ここで$\ket{\psi(t_0)}$は任意なので、例えば位置表示で$\ket{\psi(t_{0})}=\ket{q}$をし、さらに両辺$\bra{q}$をかけて積分することで完全性によって(\ref{32})が成立する。次にハミルトニアンが時間に依存しないとき
+\begin{equation}
+  U(t,t_{0})=\exp\kakko{-\frac{i}{\hbar} (t-t_0)H}
+\end{equation}
+と書けることを示す。時間を$N$等分することを考え、(\ref{32})の時間微分について無限小の$\Delta t=(t-t_{0})/N$を用いて書き直す。
+\begin{equation}
+  i\hbar \frac{U(t+\Delta t,t)-U(t,t)}{\Delta t}=H(t)U(t,t)
+\end{equation}
+$U(t,t)=I$なので
+\begin{equation}
+   U(t+\Delta t,t)=I-\frac{i}{\hbar}\Delta t H(t)
+\end{equation}
+さらに$t_{j}=t_{j-1}+\Delta t(j=1,2\cdots,N)$と書けば
+\begin{equation}
+  U(t_{j},t_{j-1})=I-\frac{i}{\hbar}\Delta t H(t_{j})
+\end{equation}
+これと(\ref{33})を繰り返し用いれば、
+\begin{equation}
+  U(t,t_{0})=\lim_{N\to \infty} U(t,t_{N-1})\cdots U(t_{1},t_{0})=\lim_{N\to \infty}\kakko{ I-\frac{i}{\hbar}\Delta t H(t) }\cdots \kakko{I-\frac{i}{\hbar}\Delta t H(t_{1})}
+\end{equation}
+と書ける。なお、$t_{N}=t$である。いまハミルトニアンは時間依存しない状況を考えているので$H(t)=H$と書いて、$\Delta t=(t-t_{0})/N$と表示すれば
+\begin{equation}
+  U(t,t_{0})=\lim_{N\to \infty}\kakko{I-\frac{i}{\hbar}\frac{t-t_0}{N}H }^{N}=\exp\kakko{-\frac{i}{\hbar}(t-t_{0})H}
+\end{equation}
+と書ける。
+\subsection{Feynman核}
+ここでは{\bf Feynman核}について議論する。Feynman核は
+\begin{equation}
+ \label{f-kn} K(q_{F},t_{F};q_{I},t_{I})=\braket{q_{F},t_{F}|q_{I},t_{I}}=\braket{q_{F}|e^{-\frac{i}{\hbar}(t_{F}-t_{I})H}|q_{I}}
+\end{equation}
+で与えられ、経路積分において基本となるものである。
+これは時刻$t_{I}$、位置$q_{I}$の粒子が時刻$t_{F}$で位置$q_{F}$に見出される確率振幅に対応する。
+Feynman核を用いて波動関数表示について
+\begin{equation}
+  \psi(q_{F},t_{F})=\int dq_{I}K(q_{F},t_{F};q_{I},t_{I})\psi(q_{I},t_{I})
+\end{equation}
+と書ける。これは状態を位置表示で
+\begin{equation}
+  \ket{\psi}=\int dq_{I}\ket{q_{I}}\braket{q_{I}|\psi}
+\end{equation}
+と書けることから両辺$\bra{q_{F}}$をかけて
+\begin{equation}
+  \braket{q_{F}|\psi}=\int dq_{I}\braket{q_{F}|q_{I}}\braket{q_{I}|\psi}\Rightarrow \psi(q_{F}) =\int dq_{I}\braket{q_{F}|q_{I}}\psi(q_{I})
+\end{equation}
+とできるためである。また位置表示の基底ベクトルは正規直交なので(\ref{f-kn})の初期条件として
+\begin{equation}
+  K(q_{F},t_{F};q_{I},t_{I})|_{t_{F}=t_{I}}=\delta (q_{F}-q_{I})
+\end{equation}
+が得られる。さらに(\ref{f-kn})に状態の完全性を挿入すれば
+\begin{equation}
+  K(q_{F},t_{F};q_{I},t_{I})=\int dq' \braket{q_{F},t_{F}|q',t'} \braket{q',t'|q_{I},t_{I}}=\int dq' K(q_{F},t_{F};q',t')(q',t';q_{I},t_{I})
+\end{equation}
+を満たすことがわかる。あるいは正規直交化されたエネルギー固有関数系$\nkakko{\varphi_{n}(q)}$を用いれば
+\begin{align}
+  K(q_{F},t_{F};q_{I},t_{I})&=\braket{q_{F}|e^{-\frac{i}{\hbar}(t_{F}-t_{I}H)}|q_{I}}\\
+  &=\sum_{n}\bra{q_{F}}e^{-\frac{i}{\hbar}(t_{F}-t_{I})H}\ket{\varphi_{n}} \braket{\varphi_{n}|q_{I}}\\
+&=\sum_{n}e^{-\frac{i}{\hbar}(t_{F}-t_{I})E_{n}}\braket{q_{F}|\varphi_{n}} \braket{\varphi_{n}|q_{I}}\\
+&=\sum_{n}e^{-\frac{i}{\hbar}(t_{F}-t_{I})E_{n}}\varphi_{n}(q_{F})\varphi_{n}^{*}(q_{I})
+\end{align}
+とFeynman核を表すことができる。
+\subsection{経路積分表示}
+\begin{thebibliography}{99}
+  \bibitem{QFT-kashiwa} 柏太郎, 新板 演習場の量子論, サイエンス社[2009]   
+  \bibitem{QFT-sakamoto} 坂本眞人, 場の量子論(II), 裳華房[2021(第2版)]   
+\end{thebibliography}
+\end{document}
