@@ -142,9 +142,9 @@ Feynman核を用いて波動関数表示について
 \end{equation}
 を満たすことがわかる。あるいは正規直交化されたエネルギー固有関数系$\nkakko{\varphi_{n}(q)}$を用いれば
 \begin{align}
-  K(q_{F},t_{F};q_{I},t_{I})&=\braket{q_{F}|e^{-\frac{i}{\hbar}(t_{F}-t_{I}H)}|q_{I}}\\
-  &=\sum_{n}\bra{q_{F}}e^{-\frac{i}{\hbar}(t_{F}-t_{I})H}\ket{\varphi_{n}} \braket{\varphi_{n}|q_{I}}\\
-&=\sum_{n}e^{-\frac{i}{\hbar}(t_{F}-t_{I})E_{n}}\braket{q_{F}|\varphi_{n}} \braket{\varphi_{n}|q_{I}}\\
+  K(q_{F},t_{F};q_{I},t_{I})&=\braket{q_{F}|e^{-\frac{i}{\hbar}(t_{F}-t_{I}H)}|q_{I}}\notag \\
+  &=\sum_{n}\bra{q_{F}}e^{-\frac{i}{\hbar}(t_{F}-t_{I})H}\ket{\varphi_{n}} \braket{\varphi_{n}|q_{I}}\notag \\
+&=\sum_{n}e^{-\frac{i}{\hbar}(t_{F}-t_{I})E_{n}}\braket{q_{F}|\varphi_{n}} \braket{\varphi_{n}|q_{I}}\notag \\
 &=\sum_{n}e^{-\frac{i}{\hbar}(t_{F}-t_{I})E_{n}}\varphi_{n}(q_{F})\varphi_{n}^{*}(q_{I})
 \end{align}
 とFeynman核を表すことができる。
@@ -160,17 +160,99 @@ Feynman核を用いて波動関数表示について
 \end{equation}
 を順次挿入して、以下のように変形する。
 \begin{align}
-  K(q_{F},t_{F};q_{I},t_{I})=& \braket{q_{F},t_{F}|q_{I},t_{I}}\\
-  =& \bra{q_{F},t_{F}}\kakko{\int dq_{N-1}\ket{q_{N-1},t_{N-1}}\bra{q_{N-1},t_{N-1}}} \\
-  & \times \kakko{\int dq_{N-2}\ket{q_{N-2},t_{N-2}}\bra{q_{N-2},t_{N-2}}}\cdots\\\
-  & \times kakko{\int dq_{1}\ket{q_{1},t_{1}}\bra{q_{1},t_{1}}} \ket{q_{I},t_{I}}\\
-  =& \int dq_{1}dq_{N-1}\braket{q_{F},t_{F}|q_{N-1},t_{N-1}}\braket{q_{N-1},t_{N-1}|q_{N-2},t_{N-2}}\\
- &\times \braket{q_{n},t_{n}|q_{n-1},t_{n-1}} \cdots \braket{q_{2},t_{2}|q_{1},t_{1}}\braket{q_{1},t_{1}|q_{I},t_{I}}
+  K(q_{F},t_{F};q_{I},t_{I})=& \braket{q_{F},t_{F}|q_{I},t_{I}} \notag \\
+    =& \bra{q_{F},t_{F}}\kakko{\int dq_{N-1}\ket{q_{N-1},t_{N-1}}\bra{q_{N-1},t_{N-1}}}\notag  \\
+  & \times \kakko{\int dq_{N-2}\ket{q_{N-2},t_{N-2}}\bra{q_{N-2},t_{N-2}}}\cdots\notag \\\
+  & \times kakko{\int dq_{1}\ket{q_{1},t_{1}}\bra{q_{1},t_{1}}} \ket{q_{I},t_{I}}\notag \\
+  =& \int dq_{1}dq_{N-1}\braket{q_{F},t_{F}|q_{N-1},t_{N-1}}\braket{q_{N-1},t_{N-1}|q_{N-2},t_{N-2}}\notag \\
+ \label{fkd}&\times \braket{q_{n},t_{n}|q_{n-1},t_{n-1}} \cdots \braket{q_{2},t_{2}|q_{1},t_{1}}\braket{q_{1},t_{1}|q_{I},t_{I}}
 \end{align}
 この式において、$\braket{q_{n},t_{n}|q_{n-1},t_{n-1}}$は時刻$t_{n-1}$で位置$q_{n-1}$にいた粒子が時刻$t_{n}=t_{n-1}+\Delta t$で位置$q_{n}$に見出される遷移確率振幅である。
 よって、一番右から見て行けば、$(q_{I},t_{I})\to(q_{1},t_{1})\to \cdots \to (q_{N-1},t_{N-1})\to (q_{F},t_{F})$と辿ったときの振幅に対応する。
 さらに、始状態と終状態は固定されており、中間状態$n=1,2,\cdots N-1$の部分はすべて積分されているので、これがすべての可能な経路を足し合わせることを表している。
 これではじめに述べた考えが実現されていることとなる。
+\subsubsection{相空間における表示}
+ここでは相空間における表示を導く。
+すなわち、Feynman核を
+\begin{equation}
+  K(q_{F},t_{F};q_{I},t_{I})=\int_{q_I}^{q_{F}} \pms{q}\pms{p}\exp\kkakko{\frac{i}{\hbar}\int_{t_{I}}^{t_{F}}dt\kakko{p(t)\dot{q}(t)-H(p,q)} }
+\end{equation}
+とする表示を求める。
+まず、
+\begin{equation}
+  \braket{q_{n},t_{n}|q_{n-1},t_{n-1}}=\braket{q_{n}|e^{-\frac{i}{\hbar}\Delta H}|q_{n-1}}
+\end{equation}
+を評価する。ハミルトニアン内部には演算子である$q,p$が含まれることに注意せよ。ハミルトニアンは
+\begin{equation}
+  H(p,q)=\frac{p^{2}}{2m}+V(q)
+\end{equation}
+の形で与えられるとする。いま、$\Delta t$は十分小さいとすると、時間並進について
+\begin{equation}
+\label{bisho}  e^{-\frac{i}{\hbar}\Delta H}=I-\frac{i}{\hbar}\Delta t H(p,q)+O(\Delta t^{2})
+\end{equation}
+と書ける。これを用いれば
+\begin{align}
+  \braket{q_{n}|e^{-\frac{i}{\hbar}\Delta H}|q_{n-1}}&=\braket{q_{n}|\kakko{I-\frac{i}{\hbar}\Delta t H(p,q)+O(\Delta t^{2})}|q_{n-1}}\notag \\
+  &=\braket{q_{n}|\kakko{I-\frac{i}{\hbar}\Delta t H(p,q)}|q_{n-1}}+O(\Delta t^{2})\notag \\
+  &=\braket{q_{n}|\kakko{I-\frac{i}{\hbar}\Delta t H(p,q)}\kakko{\int dp_{n}\ket{p_{n}}\bra{p_{n}}}|q_{n-1}}+O(\Delta t^{2})\notag \\
+  &=\int dp_{n} \kakko{I-\frac{i}{\hbar}\Delta t H(p_{n},q_{n})}\braket{q_{n}|p_{n}}\braket{p_{n}|q_{n-1}}+O(\Delta t^{2})
+\end{align}
+と変形できる。ここで、下から2番目の等号で完全系を挿入し、最後の等号において$\bra{q_{n}},\ket{p_{n}}$の固有値$q_{n},p_{n}$で書かれている。
+すなわち、演算子の部分がすべてc数で書き換えられたことになる。
+\begin{equation}
+  \braket{q|p}=\frac{1}{\sqrt{2\pi \hbar }}e^{\frac{i}{\hbar}pq}
+\end{equation}
+と書けることを用いて、再び(\ref{bisho})で指数関数で表せば
+\begin{equation}
+  \braket{q_{n},t_{n}|q_{n-1},t_{n-1}}=\int \frac{dp_{n}}{2\pi \hbar} \exp\kkakko{\frac{i}{\hbar}\Delta t \kakko{ p_{n}\frac{q_{n}-q_{n-1}}{\Delta t} -H(p_{n},q_{n}) }}+O(\Delta t^{2})
+\end{equation}
+を得る。これを(\ref{fkd})に用いる。
+\begin{equation}
+ \label{sokukan1} K(q_{F},t_{F};q_{I},t_{I})=\kakko{\prod_{n=1}^{N-1}\int dq_{n}}\kakko{\prod_{n=1}^{N}\int \frac{dp_{n}}{2\pi \hbar}}\exp\kkakko{\frac{i}{\hbar}\sum_{n=1}^{N}\Delta t \kakko{ p_{n}\frac{q_{n}-q_{n-1}}{\Delta t} -H(p_{n},q_{n}) }}
+\end{equation}
+$N\to \infty$と取れば$t_{n}$は連続的な変化をするとみなせるので、$q_{n},p_{n}\to q(t),p(t)$と書けて、また
+\begin{equation}
+ \label{ryakki1} \sum_{n=1}^{N}\Delta t \to \int_{t_{I}}^{t_{F}} dt , \quad \frac{q_{n}-q_{n-1}}{\Delta t}\to \dot{q}(t)
+\end{equation}
+と表せる。さらに
+\begin{equation}
+\label{ryakki2}\kakko{\prod_{n=1}^{N-1}\int dq_{n}}\kakko{\prod_{n=1}^{N}\int \frac{dp_{n}}{2\pi \hbar}}=\int_{q_{I}}^{q_{F}} \pms{q}\pms{p}
+\end{equation}
+と表記すれば、{\bf 相空間における経路積分表示}を得られる。
+\begin{equation}
+   \label{sokukan} K(q_{F},t_{F};q_{I},t_{I})=\int_{q_I}^{q_{F}} \pms{q}\pms{p}\exp\kkakko{\frac{i}{\hbar}\int_{t_{I}}^{t_{F}}dt\kakko{p(t)\dot{q}(t)-H(p,q)} }
+\end{equation}
+\subsubsection{配位空間における表示}
+ここでは配位空間における経路積分表示
+\begin{equation}
+  K(q_{F},t_{F};q_{I},t_{I})=\int_{q_I}^{q_{F}} \pms{q}\exp\kakko{\frac{i}{\hbar}S[q]}
+\end{equation}
+を導く。なお、ここで$S[q]$は
+\begin{equation}
+  S[q]=\int_{t_{I}}^{t_{F}} dt \, L(q(t),\dot{q}(t))=\int_{t_{I}}^{t_{F}} dt\kakko{\frac{1}{2}m\dot{q}(t)-V(q)}
+\end{equation}
+と表される作用積分である。
+前節で得た(\ref{sokukan})を見ると、指数の肩にラグランジアンの形式\footnote{ハミルトニアンはLegendre変換で$H=p\dot{q}-L$と書けた。}
+が現れている。ただし、ここで導入している$p$と$q$は独立であるため、ラグランジアンそのものではない。
+しかし、具体的に運動量積分することでラグランジアンの表示にすることが可能だ。
+(\ref{sokukan1})で$p_{n}$に関する積分を実行する。
+ハミルトニアンの形から、$p_{n}$の2次式となっていることに注目すると、平方完成してGauss積分の形へと持ち込める。
+\begin{equation}
+  p_{n}\frac{q_{n}-q_{n-1}}{\Delta t} - \frac{p_{n}^{2}}{2m}-V(q_{n})=-\frac{1}{2m}p_{n}'^{2}+\frac{m}{2}\kakko{\frac{q_{n}-q_{n-1}}{\Delta t}}^{2}-V(q_{n})
+\end{equation}
+ここで
+\begin{equation}
+  p_{n}'=p_{n}-m\frac{q_{n}-q_{n-1}}{\Delta t}
+\end{equation}
+と置いた。この変換した$p_{n}'$で積分を実行することで
+\begin{equation}
+  K(q_{F},t_{F};q_{I},t_{I})=\kakko{\frac{m}{2\pi\hbar i \Delta t}}^{N/2} \kakko{\prod_{n=1}^{N-1}\int dq_{n}}\exp\kkakko{\frac{i}{\hbar}\sum_{n=1}^{N}\Delta t \kakko{\frac{m}{2}\kakko{\frac{q_{n}-q_{n-1}}{\Delta t}}^{2}-V(q_{n}) }}
+\end{equation}
+を得て、前節同様に$N\to \infty$として(\ref{ryakki1})と(\ref{ryakki2})で書き換えれば
+\begin{equation}
+  K(q_{F},t_{F};q_{I},t_{I})=\int \pms{q}\exp\kkakko{\frac{i}{\hbar}\int_{t_{I}}^{t_{F}}dt\kakko{\frac{m}{2}\dot{q}^{2}-V(q) }}
+\end{equation}
+と書かれる。ここで全体の比例係数は積分測度$\pms{q}$に入れて再定義した。
 \begin{thebibliography}{99}
   \bibitem{QFT-kashiwa} 柏太郎, 新板 演習場の量子論, サイエンス社[2009]   
   \bibitem{QFT-sakamoto} 坂本眞人, 場の量子論(II), 裳華房[2021(第2版)]   
