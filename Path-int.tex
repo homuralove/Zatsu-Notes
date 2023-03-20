@@ -59,10 +59,10 @@
 \pagestyle{empty}
 \begin{document}
 \maketitle
-経路積分についてまとめる。
+経路積分についてまとめる。主に\cite{QFT-kashiwa}と\cite{QFT-sakamoto}に拠っている。
 参考資料や私の気分によって、このノートでもノーテーションのブレがあるかもしれない。
 \tableofcontents
-\section{Faynnmanの考え}
+\section{Feynmanの考え}
 2重スリット実験の帰結では、電子銃から放たれ、2つのスリットを通った粒子のスクリーン上での状態は、確率密度の重ね合わせで実現する。
 そのスリットを3重にしたら、あるいはスリットをもう1枚増やしたらどうなるかというと、スクリーンに到達した電子の状態は、これもまたそれらの重ね合わせで表される。
 ではスリットの穴と枚数をどんどん増やしていき、ついに全面が穴となり、また電子銃とスクリーンの間に隙間なくそのスリットが敷き詰められた場合を考える。
@@ -138,7 +138,7 @@ Feynman核を用いて波動関数表示について
 \end{equation}
 が得られる。さらに(\ref{f-kn})に状態の完全性を挿入すれば
 \begin{equation}
-  K(q_{F},t_{F};q_{I},t_{I})=\int dq' \braket{q_{F},t_{F}|q',t'} \braket{q',t'|q_{I},t_{I}}=\int dq' K(q_{F},t_{F};q',t')(q',t';q_{I},t_{I})
+  K(q_{F},t_{F};q_{I},t_{I})=\int dq' \braket{q_{F},t_{F}|q',t'} \braket{q',t'|q_{I},t_{I}}=\int dq' K(q_{F},t_{F};q',t')K(q',t';q_{I},t_{I})
 \end{equation}
 を満たすことがわかる。あるいは正規直交化されたエネルギー固有関数系$\nkakko{\varphi_{n}(q)}$を用いれば
 \begin{align}
@@ -149,6 +149,28 @@ Feynman核を用いて波動関数表示について
 \end{align}
 とFeynman核を表すことができる。
 \subsection{経路積分表示}
+さて、このFeynman核を用いて、1で述べた「あるゆる可能な経路を通る重ね合わせ」という考えが実現されていることを見る。
+今考えている時間間隔を$N$等分して、各時刻を
+\begin{equation}
+  t_{n}=t_{I}+n\Delta t, \quad \Delta t=\frac{t_{F}-t_{I}}{N}
+\end{equation}
+と表示する。($n=0,1,\cdots N$)当然$t_{0}=t_{I},t_{N}=t_{F}$である。次に、Feynman核に、各時刻$t_{1},t_{2},\cdots ,t_{N-1}$における完全系
+\begin{equation}
+  \int dq_{n}\ket{q_{n},t_{n}}\bra{q_{n},t_{n}}=I
+\end{equation}
+を順次挿入して、以下のように変形する。
+\begin{align}
+  K(q_{F},t_{F};q_{I},t_{I})=& \braket{q_{F},t_{F}|q_{I},t_{I}}\\
+  =& \bra{q_{F},t_{F}}\kakko{\int dq_{N-1}\ket{q_{N-1},t_{N-1}}\bra{q_{N-1},t_{N-1}}} \\
+  & \times \kakko{\int dq_{N-2}\ket{q_{N-2},t_{N-2}}\bra{q_{N-2},t_{N-2}}}\cdots\\\
+  & \times kakko{\int dq_{1}\ket{q_{1},t_{1}}\bra{q_{1},t_{1}}} \ket{q_{I},t_{I}}\\
+  =& \int dq_{1}dq_{N-1}\braket{q_{F},t_{F}|q_{N-1},t_{N-1}}\braket{q_{N-1},t_{N-1}|q_{N-2},t_{N-2}}\\
+ &\times \braket{q_{n},t_{n}|q_{n-1},t_{n-1}} \cdots \braket{q_{2},t_{2}|q_{1},t_{1}}\braket{q_{1},t_{1}|q_{I},t_{I}}
+\end{align}
+この式において、$\braket{q_{n},t_{n}|q_{n-1},t_{n-1}}$は時刻$t_{n-1}$で位置$q_{n-1}$にいた粒子が時刻$t_{n}=t_{n-1}+\Delta t$で位置$q_{n}$に見出される遷移確率振幅である。
+よって、一番右から見て行けば、$(q_{I},t_{I})\to(q_{1},t_{1})\to \cdots \to (q_{N-1},t_{N-1})\to (q_{F},t_{F})$と辿ったときの振幅に対応する。
+さらに、始状態と終状態は固定されており、中間状態$n=1,2,\cdots N-1$の部分はすべて積分されているので、これがすべての可能な経路を足し合わせることを表している。
+これではじめに述べた考えが実現されていることとなる。
 \begin{thebibliography}{99}
   \bibitem{QFT-kashiwa} 柏太郎, 新板 演習場の量子論, サイエンス社[2009]   
   \bibitem{QFT-sakamoto} 坂本眞人, 場の量子論(II), 裳華房[2021(第2版)]   
